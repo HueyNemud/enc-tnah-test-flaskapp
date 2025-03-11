@@ -27,7 +27,7 @@ def fetch_dataset_from_api():
 def fetch_dataset_from_db():
     connection = mysql.connector.connect(**DB_CONFIG)
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM cat_in_movies")
+    cursor.execute("SELECT * FROM cats_in_movies")
     records = cursor.fetchall()
     cursor.close()
     connection.close()
