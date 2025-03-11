@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meowiestars</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Jost', sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f4f4f4;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        a {
+            color: rgb(255, 41, 123);
+            text-decoration: none;
+        }
+
+        .btn {
+            width: 6.5em;
+            height: 2.3em;
+            margin: 0.5em;
+            background: rgb(255, 41, 123);
+            color: white;
+            border: none;
+            border-radius: 0.625em;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        button:hover {
+            color: rgb(255, 41, 123);
+        }
+
+        button:after {
+            content: "";
+            background: white;
+            position: absolute;
+            z-index: -1;
+            left: -20%;
+            right: -20%;
+            top: 0;
+            bottom: 0;
+            transform: skewX(-45deg) scale(0, 1);
+            transition: all 0.5s;
+        }
+
+        button:hover:after {
+            transform: skewX(-45deg) scale(1, 1);
+            -webkit-transition: all 0.5s;
+            transition: all 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>😻🍿 Un chat au cinéma 📽️</h1>
+        {% if cat_movie %}
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                fetchNewMovie();
+            });
+        </script>
+        {% else %}
+        <p>Aucune donnée disponible.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        function fetchNewMovie() {
+            fetch('/random')
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelector('.container').innerHTML = `
+                        <h1>😻🍿 Un chat au cinéma 📽️</h1>
+                        <button  class="btn" onclick="fetchNewMovie()">Clap ! 🎬</button>
+                        <p><strong>Film:</strong> ${data.title || 'N/A'}</p>
+                        <p><strong>Année:</strong> ${data.year || 'N/A'}</p>
+                        <p><strong>Rôle du chat:</strong> ${data.cat_role || 'N/A'}</p>
+                        <p><strong>Réalisé par:</strong> ${data.directed_by || 'N/A'}</p>
+                        <p><strong>Produit par:</strong> ${data.produced_by || 'N/A'}</p>
+                       <p><img src="${data.url_poster || ''}" alt="Poster" style="max-width: 100%; height: auto;"></p>
+                        <p><a href="${data.url_en || '#'}" target="_blank">${data.url_en || 'N/A'}</a></p>
+                        
+                       `;
+                });
+        }
+    </script>
+</body>
+
+</html>
